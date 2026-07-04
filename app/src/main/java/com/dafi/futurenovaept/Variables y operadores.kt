@@ -73,7 +73,4 @@ fun main() {
     val seatAviliable = false
     val canwatchMovie = hasTicket && seatAviliable
     println(canwatchMovie) //Resultado de la comparación lógica
-
-
-
 }
