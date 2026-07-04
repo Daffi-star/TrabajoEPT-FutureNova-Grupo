@@ -42,4 +42,38 @@ fun main() {
 
     val remainder: Int = 10 % 3 //Residuo (Módulo)
     println(remainder) //Resultado del residuo
+
+    //Asignation
+    @Suppress("unused")
+    var count = 10 //Sirve para incrementar sienta cantidad en la variable
+    count = count + 1 //Or: Count +=1
+    println(count)
+
+    //Se puede hacer lo mismo con otras operaciones
+    count = count - 1 //Or: Count -=1
+    //println(count)
+    count = count * 2 //Or: Count *=2
+    //println(count)
+    count = count / 2 //Or: Count /=2
+    //println(count)
+
+    //Comparación
+    @Suppress("unused")
+    val isEquals = (5 == 5) //Esto lo que hace es verificar si lo que hay en los parentesis son iguales o no
+    val isDifferent = (5 != 5) //Esto lo que hace es verificar si lo que hay en los parentesis son diferentes o no
+    val isGreater = (5 > 5) //Esto lo que hace es verificar si lo que hay en los parentesis son mayores o no
+    val isLess = (5 < 5) //Esto lo que hace es verificar si lo que hay en los parentesis son menores o no
+    val isGreaterOrEqual = (5 >= 5) //Esto lo que hace es verificar si lo que hay en los parentesis son mayores o iguales o no
+    val isLessOrEqual = (5 <= 5)
+    println(isEquals)
+
+    //Lógicos
+    @Suppress("unused")
+    val hasTicket = true
+    val seatAviliable = false
+    val canwatchMovie = hasTicket && seatAviliable
+    println(canwatchMovie) //Resultado de la comparación lógica
+
+
+
 }
