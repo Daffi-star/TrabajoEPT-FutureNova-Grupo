@@ -7,6 +7,9 @@ fun main(){
 
     val userSyncWorker = UserSyncWorker()
     userSyncWorker.sync()
+
+    val productSyncWorker = ProductSyncWorker()
+    productSyncWorker.sync()
 }
 
 interface Logger {
