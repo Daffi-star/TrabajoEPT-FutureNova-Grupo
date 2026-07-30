@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F8F4"
+    android:padding="16dp"
+    tools:context=".DiagnosisActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diagnóstico rápido"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#1B5E20"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Responde unas preguntas para evaluar tu situación de hierro."
+            android:textColor="#4E342E"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:paddingBottom="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pregunta 1 de 5"
+            android:textColor="#2E7D32"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginBottom="16dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#C8E6C9" />
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="8dp"
+                android:background="#388E3C" />
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Con qué frecuencia te sientes cansado(a) durante el día?"
+            android:textColor="#263238"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:divider="@android:color/transparent"
+            android:showDividers="middle">
+
+            <LinearLayout
+                android:id="@+id/option1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/option_background"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/emoji_super_cansado"
+                    android:contentDescription="emoji súper cansado"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Me siento cansado(a) con frecuencia"
+                    android:textColor="#212121"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/check1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_check_mark"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/option2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/option_background"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/emoji_fatiga"
+                    android:contentDescription="emoji fatiga"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="A veces me siento fatigado(a)"
+                    android:textColor="#212121"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/check2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_check_mark"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/option3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/option_background"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/emoji_ejercicio"
+                    android:contentDescription="emoji ejercicio"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Solo cuando hago ejercicio"
+                    android:textColor="#212121"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/check3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_check_mark"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/option4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/option_background"
+                android:padding="14dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/emoji_con_energia"
+                    android:contentDescription="emoji con energía"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Me siento con energía casi siempre"
+                    android:textColor="#212121"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/check4"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_check_mark"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNextQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="Continuar"
+            android:textAllCaps="false"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Más adelante podemos usar tus respuestas para recomendar alimentos ricos en hierro y recordatorios personalizados."
+            android:textColor="#455A64"
+            android:textSize="13sp"
+            android:lineSpacingExtra="4dp"
+            android:paddingTop="18dp" />
+    </LinearLayout>
+</ScrollView>
