@@ -3,6 +3,7 @@ package com.dafi.futurenovaept
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -11,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class DiagnosisActivity : AppCompatActivity() {
 
-    // 1. Variable para saber en qué pregunta estamos
     private var currentQuestion = 1
 
-    // Declaramos variables para las vistas que usaremos
     private lateinit var tvQuestion: TextView
     private lateinit var tvCount: TextView
     private lateinit var tvOpt1: TextView
@@ -26,24 +25,36 @@ class DiagnosisActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diagnosis)
 
-        // Inicializar vistas
+        // 1. Inicializar vistas básicas
         tvQuestion = findViewById(R.id.tvQuestionText)
         tvCount = findViewById(R.id.tvQuestionCount)
-        tvOpt1 = findViewById(R.id.tvOption1) // ¡Asegúrate de poner estos IDs en tu XML!
+        tvOpt1 = findViewById(R.id.tvOption1)
         tvOpt2 = findViewById(R.id.tvOption2)
         tvOpt3 = findViewById(R.id.tvOption3)
         tvOpt4 = findViewById(R.id.tvOption4)
 
-        val btnNext = findViewById<Button>(R.id.btnDiagnosisNext)
+        // 2. Lógica del botón Saltar
+        val btnSkip = findViewById<Button>(R.id.btnDiagnosisSkip)
+        btnSkip.setOnClickListener {
+            Toast.makeText(this, "Esta función estará disponible pronto", Toast.LENGTH_SHORT).show()
+        }
 
-        // Tu código original de selección (lo mantenemos igual)
+        // 3. Inicializar opciones y checks
+        val btnNext = findViewById<Button>(R.id.btnDiagnosisNext)
         val option1 = findViewById<LinearLayout>(R.id.option1)
         val option2 = findViewById<LinearLayout>(R.id.option2)
         val option3 = findViewById<LinearLayout>(R.id.option3)
         val option4 = findViewById<LinearLayout>(R.id.option4)
-        val checks = listOf(findViewById<ImageView>(R.id.check1), findViewById(R.id.check2), findViewById(R.id.check3), findViewById(R.id.check4))
+
+        val checks = listOf(
+            findViewById<ImageView>(R.id.check1),
+            findViewById(R.id.check2),
+            findViewById(R.id.check3),
+            findViewById(R.id.check4)
+        )
         val options = listOf(option1, option2, option3, option4)
 
+        // 4. Configurar clics de selección
         options.forEachIndexed { index, option ->
             option.setOnClickListener {
                 options.forEachIndexed { i, other ->
@@ -55,25 +66,24 @@ class DiagnosisActivity : AppCompatActivity() {
             }
         }
 
-        // Lógica del botón Continuar
+        // 5. Lógica del botón Continuar
         btnNext.setOnClickListener {
             if (currentQuestion < 5) {
                 currentQuestion++
                 loadQuestion(currentQuestion, options, checks)
+                // Llamamos a la barra para que se actualice
+                updateProgressBar(currentQuestion, 5)
             } else {
                 Toast.makeText(this, "¡Diagnóstico completado!", Toast.LENGTH_SHORT).show()
-                // Aquí podrías navegar a la siguiente actividad
             }
         }
     }
 
-    // 2. Función que cambia los textos
+    // 6. Función para cambiar textos
     private fun loadQuestion(n: Int, options: List<LinearLayout>, checks: List<ImageView>) {
-        // Primero, limpiamos las selecciones anteriores al pasar de pregunta
         options.forEach { it.isSelected = false }
         checks.forEach { it.visibility = View.GONE }
 
-        // Actualizamos textos según el número de pregunta
         tvCount.text = "Pregunta $n de 5"
 
         when (n) {
@@ -98,8 +108,23 @@ class DiagnosisActivity : AppCompatActivity() {
                 tvOpt3.text = "Casi nunca"
                 tvOpt4.text = "Nunca"
             }
-            // ... Agrega el 4 y el 5 aquí
+        }
+    }
 
+    // 7. Función para actualizar la barra (Ahora está DENTRO de la clase)
+    private fun updateProgressBar(currentQuestion: Int, totalQuestions: Int) {
+        val progressContainer = findViewById<FrameLayout>(R.id.flProgressContainer)
+        val progressBar = findViewById<View>(R.id.viewProgressFill)
+
+        val percentage = currentQuestion.toFloat() / totalQuestions.toFloat()
+
+        progressContainer.post {
+            val containerWidth = progressContainer.width
+            val newWidth = (containerWidth * percentage).toInt()
+
+            val params = progressBar.layoutParams
+            params.width = newWidth
+            progressBar.layoutParams = params
         }
     }
 }
