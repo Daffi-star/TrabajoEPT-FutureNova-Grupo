@@ -13,8 +13,11 @@ class LoadingActivity : AppCompatActivity() {
 
         // Espera 3000 milisegundos (3 segundos)
         Handler(Looper.getMainLooper()).postDelayed({
-            // Aquí irás a tu ResultActivity (aún no la tienes, pero la crearemos luego)
-            // Por ahora, solo cerramos esta pantalla.
+            // Creamos el intent para ir a ResultActivity
+            val intent = Intent(this, ResultActivity::class.java)
+            startActivity(intent)
+
+            // Cerramos LoadingActivity para que el usuario no pueda volver atrás
             finish()
         }, 3000)
     }

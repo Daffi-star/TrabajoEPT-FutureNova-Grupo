@@ -33,6 +33,8 @@
         <!-- Movi LoadingActivity aquí, DENTRO de application -->
         <activity android:name=".LoadingActivity" />
 
+        <activity android:name=".ResultActivity" />
+
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->
 
