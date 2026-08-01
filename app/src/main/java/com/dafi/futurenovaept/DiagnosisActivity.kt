@@ -1,18 +1,20 @@
 package com.dafi.futurenovaept
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.dafi.futurenovaept.data.AppDatabase
+import com.dafi.futurenovaept.data.DiagnosisRecord
+import kotlinx.coroutines.launch
 
 class DiagnosisActivity : AppCompatActivity() {
 
     private var currentQuestion = 1
+    private val answers = mutableListOf<String>()
 
     private lateinit var tvQuestion: TextView
     private lateinit var tvCount: TextView
@@ -25,7 +27,7 @@ class DiagnosisActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diagnosis)
 
-        // 1. Inicializar vistas básicas
+        // Inicializar vistas
         tvQuestion = findViewById(R.id.tvQuestionText)
         tvCount = findViewById(R.id.tvQuestionCount)
         tvOpt1 = findViewById(R.id.tvOption1)
@@ -33,28 +35,28 @@ class DiagnosisActivity : AppCompatActivity() {
         tvOpt3 = findViewById(R.id.tvOption3)
         tvOpt4 = findViewById(R.id.tvOption4)
 
-        // 2. Lógica del botón Saltar
         val btnSkip = findViewById<Button>(R.id.btnDiagnosisSkip)
-        btnSkip.setOnClickListener {
-            Toast.makeText(this, "Esta función estará disponible pronto", Toast.LENGTH_SHORT).show()
-        }
-
-        // 3. Inicializar opciones y checks
         val btnNext = findViewById<Button>(R.id.btnDiagnosisNext)
-        val option1 = findViewById<LinearLayout>(R.id.option1)
-        val option2 = findViewById<LinearLayout>(R.id.option2)
-        val option3 = findViewById<LinearLayout>(R.id.option3)
-        val option4 = findViewById<LinearLayout>(R.id.option4)
 
-        val checks = listOf(
-            findViewById<ImageView>(R.id.check1),
+        val options = listOf(
+            findViewById<LinearLayout>(R.id.option1),
+            findViewById(R.id.option2),
+            findViewById(R.id.option3),
+            findViewById(R.id.option4)
+        )
+
+        val checks = listOf<ImageView>(
+            findViewById(R.id.check1),
             findViewById(R.id.check2),
             findViewById(R.id.check3),
             findViewById(R.id.check4)
         )
-        val options = listOf(option1, option2, option3, option4)
 
-        // 4. Configurar clics de selección
+        btnSkip.setOnClickListener {
+            Toast.makeText(this, "Función pronto disponible", Toast.LENGTH_SHORT).show()
+        }
+
+        // Configurar clics de selección
         options.forEachIndexed { index, option ->
             option.setOnClickListener {
                 options.forEachIndexed { i, other ->
@@ -66,20 +68,72 @@ class DiagnosisActivity : AppCompatActivity() {
             }
         }
 
-        // 5. Lógica del botón Continuar
+        // Lógica del botón Continuar
         btnNext.setOnClickListener {
-            if (currentQuestion < 5) {
-                currentQuestion++
-                loadQuestion(currentQuestion, options, checks)
-                // Llamamos a la barra para que se actualice
-                updateProgressBar(currentQuestion, 5)
+            val selectedOption = options.find { it.isSelected }
+
+            if (selectedOption != null) {
+                // Guardar respuesta actual
+                val answerText = when (selectedOption) {
+                    options[0] -> tvOpt1.text.toString()
+                    options[1] -> tvOpt2.text.toString()
+                    options[2] -> tvOpt3.text.toString()
+                    else -> tvOpt4.text.toString()
+                }
+                answers.add(answerText)
+
+                if (currentQuestion < 5) {
+                    currentQuestion++
+                    loadQuestion(currentQuestion, options, checks)
+                    updateProgressBar(currentQuestion, 5)
+                } else {
+                    saveDiagnosisToDatabase()
+                }
             } else {
-                Toast.makeText(this, "¡Diagnóstico completado!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, selecciona una opción", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // 6. Función para cambiar textos
+    private fun calcularRiesgo(respuestas: List<String>): String {
+        var puntos = 0
+        respuestas.forEach { r ->
+            if (r.contains("Muy seguido") || r.contains("Sí, siempre") || r.contains("Siempre me ocurre")) {
+                puntos += 2
+            } else if (r.contains("A veces") || r.contains("Ocasionalmente")) {
+                puntos += 1
+            }
+        }
+        return when {
+            puntos >= 4 -> "Alto"
+            puntos >= 2 -> "Moderado"
+            else -> "Bajo"
+        }
+    }
+
+    private fun saveDiagnosisToDatabase() {
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "diagnosis-database"
+        ).build()
+
+        lifecycleScope.launch {
+            val nuevoRegistro = DiagnosisRecord(
+                date = System.currentTimeMillis(),
+                nivelRiesgo = calcularRiesgo(answers),
+                respuestasRaw = answers.joinToString(" | "),
+                observacion = "Encuesta completada"
+            )
+
+            db.diagnosisDao().insert(nuevoRegistro)
+            android.util.Log.d("DIAGNOSTICO", "¡Dato guardado exitosamente!") // <--- AGREGAR ESTO
+
+            val intent = Intent(this@DiagnosisActivity, LoadingActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
     private fun loadQuestion(n: Int, options: List<LinearLayout>, checks: List<ImageView>) {
         options.forEach { it.isSelected = false }
         checks.forEach { it.visibility = View.GONE }
@@ -111,17 +165,14 @@ class DiagnosisActivity : AppCompatActivity() {
         }
     }
 
-    // 7. Función para actualizar la barra (Ahora está DENTRO de la clase)
     private fun updateProgressBar(currentQuestion: Int, totalQuestions: Int) {
         val progressContainer = findViewById<FrameLayout>(R.id.flProgressContainer)
         val progressBar = findViewById<View>(R.id.viewProgressFill)
-
         val percentage = currentQuestion.toFloat() / totalQuestions.toFloat()
 
         progressContainer.post {
             val containerWidth = progressContainer.width
             val newWidth = (containerWidth * percentage).toInt()
-
             val params = progressBar.layoutParams
             params.width = newWidth
             progressBar.layoutParams = params
