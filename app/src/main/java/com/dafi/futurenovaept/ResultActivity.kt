@@ -38,7 +38,7 @@ class ResultActivity : AppCompatActivity() {
         // Redirigir al menú después de 4 segundos (para que el usuario alcance a leer)
         Handler(Looper.getMainLooper()).postDelayed({
             // Cambia 'MainActivity' por el nombre de tu clase de menú principal
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
             finish()
         }, 4000)

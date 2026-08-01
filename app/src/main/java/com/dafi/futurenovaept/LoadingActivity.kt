@@ -9,17 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 class LoadingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_loading)
+        setContentView(R.layout.activity_loading) // Asegúrate de que este archivo exista
 
-        // Espera 3000 milisegundos (3 segundos)
+        // Esperar 3 segundos
         Handler(Looper.getMainLooper()).postDelayed({
-            // Creamos el intent para ir a ResultActivity
-            val intent = Intent(this, ResultActivity::class.java)
-            startActivity(intent)
 
-            // Cerramos LoadingActivity para que el usuario no pueda volver atrás
-            finish()
+            // --- AQUÍ ESTÁ EL CAMBIO ---
+            // Cambia 'DashboardActivity' por 'ResultadosActivity'
+            val intent = Intent(this, ResultActivity::class.java)
+
+            startActivity(intent)
+            finish() // Cerramos LoadingActivity para que no vuelvan atrás
         }, 3000)
     }
 }
-

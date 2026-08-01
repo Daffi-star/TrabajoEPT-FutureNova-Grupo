@@ -127,8 +127,8 @@ class DiagnosisActivity : AppCompatActivity() {
 
             db.diagnosisDao().insert(nuevoRegistro)
 
-            // --- CAMBIA ESTA LÍNEA ---
-            val intent = Intent(this@DiagnosisActivity, DashboardActivity::class.java)
+            // CORRECCIÓN AQUÍ: Ahora apunta a LoadingActivity
+            val intent = Intent(this@DiagnosisActivity, LoadingActivity::class.java)
             startActivity(intent)
             finish()
         }
