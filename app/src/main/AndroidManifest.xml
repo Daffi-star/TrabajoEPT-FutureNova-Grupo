@@ -35,6 +35,8 @@
 
         <activity android:name=".ResultActivity" />
 
+        <activity android:name=".DashboardActivity" />
+
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->
 

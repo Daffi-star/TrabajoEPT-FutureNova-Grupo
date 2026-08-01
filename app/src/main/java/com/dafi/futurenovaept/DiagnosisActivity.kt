@@ -126,9 +126,9 @@ class DiagnosisActivity : AppCompatActivity() {
             )
 
             db.diagnosisDao().insert(nuevoRegistro)
-            android.util.Log.d("DIAGNOSTICO", "¡Dato guardado exitosamente!") // <--- AGREGAR ESTO
 
-            val intent = Intent(this@DiagnosisActivity, LoadingActivity::class.java)
+            // --- CAMBIA ESTA LÍNEA ---
+            val intent = Intent(this@DiagnosisActivity, DashboardActivity::class.java)
             startActivity(intent)
             finish()
         }
