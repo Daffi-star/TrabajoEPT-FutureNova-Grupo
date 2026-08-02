@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Color de la ola -->
+    <solid android:color="#4CAF50" />
+    <!-- Esquinas redondeadas solo arriba -->
+    <corners
+        android:topLeftRadius="30dp"
+        android:topRightRadius="30dp" />
+</shape>

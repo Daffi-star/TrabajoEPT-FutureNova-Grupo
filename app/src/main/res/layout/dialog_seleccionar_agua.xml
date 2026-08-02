@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Switch oz/ml -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <RadioButton android:text="oz" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <RadioButton android:text="ml" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true"/>
+    </RadioGroup>
+
+    <!-- Valor numérico -->
+    <TextView
+        android:id="@+id/tvValor"
+        android:text="500"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Slider -->
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="1000"
+        android:progress="500" />
+
+</LinearLayout>

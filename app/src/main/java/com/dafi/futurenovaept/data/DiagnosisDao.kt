@@ -17,4 +17,9 @@ interface DiagnosisDao {
     // En DiagnosisDao.kt
     @Query("SELECT * FROM diagnosis_records ORDER BY id DESC LIMIT 1")
     suspend fun getLatestDiagnosis(): DiagnosisRecord?
+
+    // AÑADE ESTO:
+    @Query("SELECT * FROM diagnosis_records ORDER BY date DESC LIMIT 1")
+    suspend fun getLastRecord(): DiagnosisRecord?
+    // ...
 }

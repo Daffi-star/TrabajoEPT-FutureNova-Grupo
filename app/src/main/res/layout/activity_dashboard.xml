@@ -55,20 +55,20 @@
                             android:src="@drawable/ic_streak"
                             app:tint="@color/red_iron" />
                         <TextView
+                            android:id="@+id/tvRacha"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="¡Racha de 5 días!"
-                            android:textColor="@color/green_primary"
-                            android:textStyle="bold" />
+                            android:text="¡Cargando racha!..."
+                            android:textStyle="bold"
+                            android:textColor="@color/green_primary" />
+
                     </LinearLayout>
                     <ProgressBar
+                        android:id="@+id/progressBarRacha"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
-                        android:layout_marginTop="10dp"
-                        android:backgroundTint="#E0E0E0"
-                        android:progress="70"
+                        android:progress="0"
                         android:progressTint="@color/red_iron" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -186,6 +186,7 @@
 
             <!-- Recordatorio de agua -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWater"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -233,6 +234,8 @@
                 android:layout_marginBottom="20dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/chica1" />
+
+
 
         </LinearLayout>
     </ScrollView>

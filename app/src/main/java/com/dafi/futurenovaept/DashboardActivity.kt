@@ -1,26 +1,71 @@
 package com.dafi.futurenovaept
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import java.util.Calendar
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // FORZAR MODO CLARO para evitar el fondo negro
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_dashboard)
 
-        // Configuración del Nombre de Usuario
-        val tvSaludo = findViewById<TextView>(R.id.tvSaludo)
-        val nombreUsuario = "Dafne"
-        tvSaludo.text = "Hola, $nombreUsuario 👋"
+        // 1. Configuración del botón Diagnóstico
+        val btnDiagnostico = findViewById<MaterialButton>(R.id.btnDiagnostico)
+        btnDiagnostico.setOnClickListener {
+            val intent = Intent(this, ResultadosActivity::class.java)
+            startActivity(intent)
+        }
 
-        // Configuración del Consejo diario
+        // Botón Agua (El puente)
+        val cardWater = findViewById<MaterialCardView>(R.id.cardWater)
+        cardWater.setOnClickListener {
+            val intent = Intent(this, AguaActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 2. Obtener acceso a las preferencias
+        val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+
+        // 3. Lógica de la racha
+        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        val hoy = dateFormat.format(Date())
+        val ultimaFecha = sharedPref.getString("ultima_fecha", "")
+        var racha = sharedPref.getInt("racha", 0)
+
+        if (hoy != ultimaFecha) {
+            val ayer = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+            val cal = Calendar.getInstance()
+            cal.add(Calendar.DATE, -1)
+            val ayerString = ayer.format(cal.time)
+
+            if (ultimaFecha == ayerString) {
+                racha++
+            } else if (ultimaFecha != hoy) {
+                racha = 1
+            }
+            sharedPref.edit().putInt("racha", racha).putString("ultima_fecha", hoy).apply()
+        }
+
+        // 4. Actualizar la UI
+        val tvRacha = findViewById<TextView>(R.id.tvRacha)
+        tvRacha.text = "¡Racha de $racha días!"
+
+        val progressBar = findViewById<ProgressBar>(R.id.progressBarRacha)
+        progressBar.progress = (racha % 7) * 15
+
+        val tvSaludo = findViewById<TextView>(R.id.tvSaludo)
+        tvSaludo.text = "Hola, Dafne 👋"
+
         val tvConsejo = findViewById<TextView>(R.id.tvConsejo)
         val consejos = listOf(
             "Tomar agua antes de comer ayuda a mejorar tu digestión.",

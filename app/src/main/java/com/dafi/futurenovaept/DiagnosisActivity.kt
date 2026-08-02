@@ -162,6 +162,13 @@ class DiagnosisActivity : AppCompatActivity() {
                 tvOpt3.text = "Casi nunca"
                 tvOpt4.text = "Nunca"
             }
+            5 -> {
+                tvQuestion.text = "¿Sientes las manos o los pies fríos todo el tiempo?"
+                tvOpt1.text = "Siempre"
+                tvOpt2.text = "Ocasionalmente"
+                tvOpt3.text = "Casi nunca"
+                tvOpt4.text = "Nunca"
+        }
         }
     }
 

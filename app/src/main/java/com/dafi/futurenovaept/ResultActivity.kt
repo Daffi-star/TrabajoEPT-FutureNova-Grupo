@@ -35,10 +35,14 @@ class ResultActivity : AppCompatActivity() {
             }
         }
 
-        // Redirigir al menú después de 4 segundos (para que el usuario alcance a leer)
+        // Redirigir al menú después de 4 segundos
         Handler(Looper.getMainLooper()).postDelayed({
-            // Cambia 'MainActivity' por el nombre de tu clase de menú principal
             val intent = Intent(this, DashboardActivity::class.java)
+
+            // ESTA ES LA CLAVE: Borra el historial anterior (Login, carga, etc.)
+            // y convierte DashboardActivity en la nueva pantalla raíz.
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
             startActivity(intent)
             finish()
         }, 4000)
