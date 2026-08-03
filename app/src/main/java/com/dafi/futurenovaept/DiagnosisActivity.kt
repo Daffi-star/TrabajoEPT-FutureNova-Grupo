@@ -112,10 +112,7 @@ class DiagnosisActivity : AppCompatActivity() {
     }
 
     private fun saveDiagnosisToDatabase() {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "diagnosis-database"
-        ).build()
+        val db = AppDatabase.getDatabase(this)
 
         lifecycleScope.launch {
             val nuevoRegistro = DiagnosisRecord(

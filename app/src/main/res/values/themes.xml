@@ -13,4 +13,9 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="NumberPickerText" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

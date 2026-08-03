@@ -16,6 +16,7 @@ class ResultadosActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_resultados)
         // 1. Encuentra el botón (¡Asegúrate de que el ID coincida con el XML!)
         val btnVolver = findViewById<MaterialButton>(R.id.btnVolverAlMenu)
@@ -36,11 +37,7 @@ class ResultadosActivity : AppCompatActivity() {
     }
 
     private fun cargarUltimoDiagnostico() {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "diagnosis-database"
-        ).build()
+        val db = AppDatabase.getDatabase(this)
 
         lifecycleScope.launch {
             // Asegúrate de que tu DAO tenga el método getLastRecord()

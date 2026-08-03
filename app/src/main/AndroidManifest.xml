@@ -39,7 +39,22 @@
 
         <activity android:name=".ResultadosActivity" />
 
-        <activity android:name="AguaActivity" />
+        <activity
+            android:name=".AguaActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"> <!-- AQUÍ ESTÁ EL CAMBIO -->
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="HistoryActivity" />
+
+        <activity android:name="BottomSheetAgua" />
+
+        <activity android:name=".AlarmActivity" />
 
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->

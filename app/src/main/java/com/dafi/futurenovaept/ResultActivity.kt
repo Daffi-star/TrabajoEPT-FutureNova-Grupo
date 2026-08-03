@@ -20,10 +20,7 @@ class ResultActivity : AppCompatActivity() {
         val tvRiesgo = findViewById<TextView>(R.id.tvRiesgoResultado)
 
         // Consultar el último resultado
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "diagnosis-database"
-        ).build()
+        val db = AppDatabase.getDatabase(this)
 
         lifecycleScope.launch {
             val ultimoDiagnostico = db.diagnosisDao().getLatestDiagnosis()
