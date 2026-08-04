@@ -3,36 +3,56 @@ package com.dafi.futurenovaept
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SwitchCompat
 
 class AlarmAdapter(
-    private val clickListener: (Alarma) -> Unit
+    var alarmas: List<Alarma>,
+    private val onItemClick: (Alarma) -> Unit,       // Para cuando toquen la tarjeta (editar)
+    private val onSwitchToggled: (Alarma) -> Unit    // Para cuando muevan el switch
 ) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
 
-    var alarmas: MutableList<Alarma> = mutableListOf()
+    // 1. Definimos las vistas de cada elemento de la lista
+    class AlarmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val nombreTextView: TextView = itemView.findViewById(R.id.tvTituloAlarma)
+        val horaTextView: TextView = itemView.findViewById(R.id.tvHoraAlarma)
+        val switchAlarma: SwitchCompat = itemView.findViewById(R.id.switchAlarma) // <--- CAMBIADO A SWITCHCOMPAT
+    }
 
+    // 2. Crea la vista inflando el XML (este ya lo tenías)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_alarm, parent, false)
         return AlarmViewHolder(view)
     }
 
+    // 3. Conecta los datos con cada elemento visual (¡Aquí está el onBindViewHolder!)
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
         val alarma = alarmas[position]
-        holder.bind(alarma, clickListener)
-    }
 
-    override fun getItemCount(): Int = alarmas.size
+        // Mostramos el nombre y la hora
+        holder.nombreTextView.text = alarma.nombre
+        holder.horaTextView.text = alarma.hora
 
-    class AlarmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Asegúrate que estos IDs existan en tu item_alarm.xml
-        private val txtNombre = itemView.findViewById<TextView>(R.id.tvTituloAlarma)
-        private val txtHora = itemView.findViewById<TextView>(R.id.tvHoraAlarma)
+        // Limpiamos el listener del switch temporalmente para evitar que se mueva solo al hacer scroll
+        holder.switchAlarma.setOnCheckedChangeListener(null)
 
-        fun bind(alarma: Alarma, clickListener: (Alarma) -> Unit) {
-            txtNombre.text = alarma.nombre
-            txtHora.text = alarma.hora
-            itemView.setOnClickListener { clickListener(alarma) }
+        // Ponemos el switch en encendido o apagado según la base de datos
+        holder.switchAlarma.isChecked = alarma.activo
+
+        // Escuchamos cuando el usuario mueve el switch manualmente
+        holder.switchAlarma.setOnCheckedChangeListener { _, isChecked ->
+            alarma.activo = isChecked
+            onSwitchToggled(alarma) // Avisamos a la Activity para que guarde en la BD y configure la alarma
+        }
+
+        // Si hacen clic en toda la tarjeta, abrimos para editar
+        holder.itemView.setOnClickListener {
+            onItemClick(alarma)
         }
     }
+
+    // 4. Cantidad total de elementos
+    override fun getItemCount(): Int = alarmas.size
 }

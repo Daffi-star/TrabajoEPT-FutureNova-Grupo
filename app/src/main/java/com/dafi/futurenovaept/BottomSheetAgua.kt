@@ -11,15 +11,17 @@ import com.google.android.material.button.MaterialButton
 
 class BottomSheetAgua : BottomSheetDialogFragment() {
 
-    // 1. Definimos la interface aquí dentro
     interface OnAguaSelectedListener {
         fun onAguaSelected(cantidad: Int)
     }
 
-    // 2. Creamos la variable que usará la Activity
     var listener: OnAguaSelectedListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.dialog_seleccionar_agua, container, false)
 
         val seekBar = view.findViewById<SeekBar>(R.id.seekBar)
@@ -35,12 +37,8 @@ class BottomSheetAgua : BottomSheetDialogFragment() {
         })
 
         btnOk.setOnClickListener {
-            // Obtenemos el valor actual
             val cantidad = tvValor.text.toString().toInt()
-
-            // 3. Enviamos el dato a través del listener
             listener?.onAguaSelected(cantidad)
-
             dismiss()
         }
 

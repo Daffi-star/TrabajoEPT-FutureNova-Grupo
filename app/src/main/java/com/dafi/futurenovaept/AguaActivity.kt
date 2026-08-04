@@ -40,7 +40,8 @@ class AguaActivity : AppCompatActivity() {
         val tvNumeroTazas = findViewById<TextView>(R.id.tvNumeroTazas)
         val btnHistory = findViewById<ImageView>(R.id.btnHistory)
         val btnAlarms = findViewById<ImageView>(R.id.btnClock)
-
+        val tvHistoria = findViewById<TextView>(R.id.tvHistoriaEstadisticas)
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
         // Función que actualiza la pantalla Y GUARDA los datos automáticamente
         fun actualizarUI() {
             tvTotalMl.text = "$totalAgua ml"
@@ -65,6 +66,10 @@ class AguaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        btnBack.setOnClickListener {
+            finish() // Cierra esta pantalla y regresa automáticamente al dashboard anterior
+        }
+
         btnMinus.setOnClickListener {
             if (totalAgua >= cantidadPreferida) {
                 totalAgua -= cantidadPreferida
@@ -74,6 +79,11 @@ class AguaActivity : AppCompatActivity() {
                 numeroTazas = 0
             }
             actualizarUI()
+        }
+
+        tvHistoria.setOnClickListener {
+            val intent = Intent(this, WaterStatsActivity::class.java)
+            startActivity(intent)
         }
 
         // En tu AguaActivity.kt // O el ID que tengas

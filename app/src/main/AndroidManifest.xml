@@ -56,7 +56,17 @@
 
         <activity android:name=".AlarmActivity" />
 
+        <receiver android:name=".AlarmReceiver" android:exported="false" />
+
+        <activity android:name=".WaterStatsActivity" android:exported="false" />
+
+        <activity
+            android:name=".WaterStatsActivity"
+            android:exported="false" /> <!-- O true, dependiendo si la abres desde otras apps -->
+
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
 </manifest>
