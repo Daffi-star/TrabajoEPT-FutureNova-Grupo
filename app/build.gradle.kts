@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinKapt)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -52,4 +53,10 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("com.airbnb.android:lottie:6.0.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(platform("com.google.firebase:firebase-bom:34.17.0"))
+    // 3. Firebase Authentication
+    implementation("com.google.firebase:firebase-auth")
+
+    // 4. Google Sign-In (Servicios de Play para autenticación con Google)
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 }

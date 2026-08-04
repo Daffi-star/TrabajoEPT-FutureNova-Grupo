@@ -17,11 +17,15 @@ import com.dafi.futurenovaept.AgendaActivity
 
 class DashboardActivity : AppCompatActivity() {
 
+    private lateinit var tvSaludo: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_dashboard)
+
+        tvSaludo = findViewById(R.id.tvSaludo)
 
         // 1. Configuración del botón Diagnóstico
         val btnDiagnostico = findViewById<MaterialButton>(R.id.btnDiagnostico)
@@ -30,17 +34,10 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val bottomNavigationView = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation) // Reemplaza 'bottomNavigationView' por el ID real que le diste a tu vista en el XML del dashboard
-
-// Opcional: Marcar "Inicio" como seleccionado por defecto si estás en esta pantalla
-        bottomNavigationView.selectedItemId = R.id.nav_inicio
+        val bottomNavigationView = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation)
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_inicio -> {
-                    // Ya estás en inicio, no haces nada o recargas
-                    true
-                }
                 R.id.nav_agenda -> {
                     startActivity(Intent(this, AgendaActivity::class.java))
                     true
@@ -50,7 +47,7 @@ class DashboardActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_perfil -> {
-                    // Próximamente crearemos PerfilActivity
+                    startActivity(Intent(this, PerfilActivity::class.java))
                     true
                 }
                 else -> false
@@ -58,7 +55,6 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         val layoutComida = findViewById<LinearLayout>(R.id.layoutComida)
-
         layoutComida.setOnClickListener {
             val intent = Intent(this, RecetasActivity::class.java)
             startActivity(intent)
@@ -106,16 +102,14 @@ class DashboardActivity : AppCompatActivity() {
             sharedPref.edit().putInt("racha", racha).putString("ultima_fecha", hoy).apply()
         }
 
-        // 4. Actualizar la UI
+        // 4. Actualizar la UI de la racha
         val tvRacha = findViewById<TextView>(R.id.tvRacha)
         tvRacha.text = "¡Racha de $racha días!"
 
         val progressBar = findViewById<ProgressBar>(R.id.progressBarRacha)
         progressBar.progress = (racha % 7) * 15
 
-        val tvSaludo = findViewById<TextView>(R.id.tvSaludo)
-        tvSaludo.text = "Hola, Dafne 👋"
-
+        // Consejos del día
         val tvConsejo = findViewById<TextView>(R.id.tvConsejo)
         val consejos = listOf(
             "Tomar agua antes de comer ayuda a mejorar tu digestión.",
@@ -133,18 +127,21 @@ class DashboardActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         cargarAguaEnDashboard()
+        actualizarNombreUsuario()
+    }
+
+    private fun actualizarNombreUsuario() {
+        val prefsPerfil = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
+        val nombreGuardado = prefsPerfil.getString("nombre_usuario", "Dafne") ?: "Dafne"
+        tvSaludo.text = "Hola, $nombreGuardado 👋"
     }
 
     private fun cargarAguaEnDashboard() {
-        // Leemos los datos guardados en SharedPreferences
         val sharedPref = getSharedPreferences("MisDatosAgua", MODE_PRIVATE)
         val totalAguaActual = sharedPref.getInt("totalAgua", 0)
-        val metaDiaria = 2000 // O puedes leerla de preferencias si la haces configurable
+        val metaDiaria = 2000
 
-        // Vinculamos el TextView del dashboard
         val tvDashboardAgua = findViewById<TextView>(R.id.tvDashboardAgua)
-
-        // Actualizamos el texto con el valor real
         tvDashboardAgua.text = "$totalAguaActual / ${metaDiaria}ml"
     }
 }
