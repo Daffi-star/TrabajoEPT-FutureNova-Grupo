@@ -36,6 +36,12 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val layoutSuplemento = findViewById<LinearLayout>(R.id.layoutSuplemento)
+        layoutSuplemento.setOnClickListener {
+            val intent = Intent(this, SuplementosActivity::class.java)
+            startActivity(intent)
+        }
+
         val btnMasInformacion = findViewById<View>(R.id.btnMasInformacion)
         btnMasInformacion.setOnClickListener {
             val intent = Intent(this, MasInformacionActivity::class.java)

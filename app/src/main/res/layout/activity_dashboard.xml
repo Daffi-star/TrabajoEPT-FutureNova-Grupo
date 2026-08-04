@@ -139,10 +139,14 @@
                     app:cardCornerRadius="20dp"
                     app:cardElevation="4dp">
                     <LinearLayout
+                        android:id="@+id/layoutSuplemento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
                         android:padding="16dp">
                         <ImageView
                             android:layout_width="40dp"

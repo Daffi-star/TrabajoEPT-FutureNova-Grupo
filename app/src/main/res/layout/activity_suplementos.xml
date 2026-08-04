@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvHeaderSuplementos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mis Suplementos y Alarmas"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#2E5A44"
+        android:layout_marginBottom="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSuplementos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvHeaderSuplementos"
+        android:layout_above="@id/btnAgregarAlarma"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="none"/>
+
+    <Button
+        android:id="@+id/btnAgregarAlarma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="+ Agregar Nueva Alarma"
+        android:backgroundTint="#2E5A44"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:padding="12dp"/>
+
+</RelativeLayout>

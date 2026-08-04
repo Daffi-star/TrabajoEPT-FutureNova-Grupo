@@ -72,6 +72,13 @@
 
         <activity android:name=".DetalleRecetaActivity" android:exported="false" />
 
+        <activity android:name=".SuplementosActivity" android:exported="false" />
+
+        <activity android:name=".SuplementosActivity" android:exported="false" />
+
+        <!-- Receptor para la alarma -->
+        <receiver android:name=".SuplementoReceiver" android:exported="false" />
+
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
