@@ -11,6 +11,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import java.text.SimpleDateFormat
 import java.util.*
+import android.view.View
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -24,6 +25,12 @@ class DashboardActivity : AppCompatActivity() {
         val btnDiagnostico = findViewById<MaterialButton>(R.id.btnDiagnostico)
         btnDiagnostico.setOnClickListener {
             val intent = Intent(this, ResultadosActivity::class.java)
+            startActivity(intent)
+        }
+
+        val btnMasInformacion = findViewById<View>(R.id.btnMasInformacion)
+        btnMasInformacion.setOnClickListener {
+            val intent = Intent(this, MasInformacionActivity::class.java)
             startActivity(intent)
         }
 

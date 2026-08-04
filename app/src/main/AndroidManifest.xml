@@ -64,6 +64,10 @@
             android:name=".WaterStatsActivity"
             android:exported="false" /> <!-- O true, dependiendo si la abres desde otras apps -->
 
+        <activity android:name=".MasInformacionActivity" android:exported="false" />
+
+        <activity android:name=".DetalleInformacionActivity" android:exported="false" />
+
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />

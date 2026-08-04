@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9F9F9"
+    android:padding="16dp">
+
+    <!-- Barra superior con botón de regreso y título -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/btnBackDetalle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tvTituloDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Título"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#2E5A44"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
+
+    <!-- Contenido detallado con scroll -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/tvContenidoDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Información detallada aquí..."
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:lineSpacingExtra="6dp"/>
+    </ScrollView>
+</LinearLayout>
