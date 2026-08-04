@@ -108,11 +108,15 @@
                     app:cardCornerRadius="20dp"
                     app:cardElevation="4dp">
                     <LinearLayout
+                        android:id="@+id/layoutComida"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground">
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
@@ -212,12 +216,12 @@
                             android:textColor="@color/green_primary"
                             android:textStyle="bold" />
                         <TextView
+                            android:id="@+id/tvDashboardAgua"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:text="0 / 2000ml"
-                            android:textColor="@color/red_iron"
-                            android:textSize="20sp"
+                            android:textColor="#A83232"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                     <ImageView

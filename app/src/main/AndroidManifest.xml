@@ -68,6 +68,10 @@
 
         <activity android:name=".DetalleInformacionActivity" android:exported="false" />
 
+        <activity android:name=".RecetasActivity" android:exported="false" />
+
+        <activity android:name=".DetalleRecetaActivity" android:exported="false" />
+
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />

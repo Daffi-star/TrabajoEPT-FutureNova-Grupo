@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9F9F9"
+    android:padding="16dp">
+
+    <!-- Barra superior con botón de regreso -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <ImageView
+            android:id="@+id/btnBackDetalle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tvTituloDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Título de la Receta"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#2E5A44"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
+
+    <!-- Contenido completo con Scroll -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- Nivel de riesgo -->
+            <TextView
+                android:id="@+id/tvRiesgoDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#D32F2F"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Sección Ingredientes -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingredientes"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2E5A44"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tvIngredientesDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Sección Preparación -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Preparación"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2E5A44"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tvPreparacionDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Sección Cómo ayuda a la anemia -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cómo ayuda a la anemia"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2E5A44"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tvComoAyudaDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Sección Datos Extra -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Datos Extra y Consejos"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2E5A44"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tvDatosExtraDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:background="@android:color/white"
+                android:padding="12dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

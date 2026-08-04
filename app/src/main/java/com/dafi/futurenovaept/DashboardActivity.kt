@@ -12,6 +12,7 @@ import com.google.android.material.card.MaterialCardView
 import java.text.SimpleDateFormat
 import java.util.*
 import android.view.View
+import android.widget.LinearLayout
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -25,6 +26,13 @@ class DashboardActivity : AppCompatActivity() {
         val btnDiagnostico = findViewById<MaterialButton>(R.id.btnDiagnostico)
         btnDiagnostico.setOnClickListener {
             val intent = Intent(this, ResultadosActivity::class.java)
+            startActivity(intent)
+        }
+
+        val layoutComida = findViewById<LinearLayout>(R.id.layoutComida)
+
+        layoutComida.setOnClickListener {
+            val intent = Intent(this, RecetasActivity::class.java)
             startActivity(intent)
         }
 
@@ -86,5 +94,23 @@ class DashboardActivity : AppCompatActivity() {
         val diaDelAnio = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
         val indice = diaDelAnio % consejos.size
         tvConsejo.text = consejos[indice]
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cargarAguaEnDashboard()
+    }
+
+    private fun cargarAguaEnDashboard() {
+        // Leemos los datos guardados en SharedPreferences
+        val sharedPref = getSharedPreferences("MisDatosAgua", MODE_PRIVATE)
+        val totalAguaActual = sharedPref.getInt("totalAgua", 0)
+        val metaDiaria = 2000 // O puedes leerla de preferencias si la haces configurable
+
+        // Vinculamos el TextView del dashboard
+        val tvDashboardAgua = findViewById<TextView>(R.id.tvDashboardAgua)
+
+        // Actualizamos el texto con el valor real
+        tvDashboardAgua.text = "$totalAguaActual / ${metaDiaria}ml"
     }
 }
