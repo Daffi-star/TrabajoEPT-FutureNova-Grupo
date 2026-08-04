@@ -79,6 +79,10 @@
         <!-- Receptor para la alarma -->
         <receiver android:name=".SuplementoReceiver" android:exported="false" />
 
+        <activity android:name=".AgendaActivity" android:exported="false" />
+
+        <activity android:name=".MetasActivity" android:exported="false" />
+
     </application>
     <!-- La etiqueta de cierre va al final de todas las actividades -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.view.View
 import android.widget.LinearLayout
+import com.dafi.futurenovaept.AgendaActivity
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -27,6 +28,33 @@ class DashboardActivity : AppCompatActivity() {
         btnDiagnostico.setOnClickListener {
             val intent = Intent(this, ResultadosActivity::class.java)
             startActivity(intent)
+        }
+
+        val bottomNavigationView = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation) // Reemplaza 'bottomNavigationView' por el ID real que le diste a tu vista en el XML del dashboard
+
+// Opcional: Marcar "Inicio" como seleccionado por defecto si estás en esta pantalla
+        bottomNavigationView.selectedItemId = R.id.nav_inicio
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_inicio -> {
+                    // Ya estás en inicio, no haces nada o recargas
+                    true
+                }
+                R.id.nav_agenda -> {
+                    startActivity(Intent(this, AgendaActivity::class.java))
+                    true
+                }
+                R.id.nav_metas -> {
+                    startActivity(Intent(this, MetasActivity::class.java))
+                    true
+                }
+                R.id.nav_perfil -> {
+                    // Próximamente crearemos PerfilActivity
+                    true
+                }
+                else -> false
+            }
         }
 
         val layoutComida = findViewById<LinearLayout>(R.id.layoutComida)
