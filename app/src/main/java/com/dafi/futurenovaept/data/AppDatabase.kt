@@ -12,12 +12,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [DiagnosisRecord::class, Alarma::class, WaterEntity::class], version = 3)
+@Database(entities = [DiagnosisRecord::class, Alarma::class, WaterEntity::class, MetaEntity::class, AgendaEntity::class, SuplementoEntity::class], version = 4)
 @androidx.room.TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun diagnosisDao(): DiagnosisDao
     abstract fun alarmDao(): AlarmDao
     abstract fun waterDao(): WaterDao
+
+    abstract fun metaDao(): MetaDao
+    abstract fun agendaDao(): AgendaDao
+    abstract fun suplementoDao(): SuplementoDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null

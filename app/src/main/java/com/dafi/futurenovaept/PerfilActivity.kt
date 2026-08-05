@@ -13,6 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 import java.io.FileOutputStream
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.dafi.futurenovaept.R
+import com.dafi.futurenovaept.data.AppDatabase
 
 class PerfilActivity : AppCompatActivity() {
 
@@ -73,6 +77,29 @@ class PerfilActivity : AppCompatActivity() {
                 .setMessage("NutriHierro es una aplicación diseñada para el cuidado y control de anemia, ayudando a los estudiantes a llevar un registro saludable.")
                 .setPositiveButton("Entendido", null)
                 .show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cargarDatosPerfil()
+        cargarResumenActividad() // ⬅️ Añadir aquí
+    }
+
+    private fun cargarResumenActividad() {
+        val db = AppDatabase.getDatabase(this)
+
+        lifecycleScope.launch {
+            // Consultar los conteos de cada tabla
+            val totalMetas = db.metaDao().getCount()
+            val totalAgenda = db.agendaDao().getCount()
+            val totalSuplementos = db.suplementoDao().getCount()
+
+            // Asegúrate de tener los IDs correctos de los TextViews en tu XML de perfil
+            // Ejemplo: tvMetasCount, tvAgendaCount, tvSuplementosCount
+            findViewById<TextView>(R.id.tvStatMetas)?.text = totalMetas.toString()
+            findViewById<TextView>(R.id.tvStatAgenda)?.text = totalAgenda.toString()
+            findViewById<TextView>(R.id.tvStatSuplementos)?.text = totalSuplementos.toString()
         }
     }
 

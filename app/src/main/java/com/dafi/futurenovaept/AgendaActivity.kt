@@ -13,6 +13,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.dafi.futurenovaept.data.AppDatabase
+import com.dafi.futurenovaept.data.AgendaEntity
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Calendar
@@ -102,6 +106,15 @@ class AgendaActivity : AppCompatActivity() {
 
                 listaAgenda.add(nuevoItem)
                 guardarAgendaEnPrefs()
+
+                // ⬅️ Guardar también en Room para el perfil
+                lifecycleScope.launch {
+                    val db = AppDatabase.getDatabase(this@AgendaActivity)
+                    db.agendaDao().insertAgenda(
+                        AgendaEntity(id = nuevoItem.id.toLongOrNull() ?: 0L, evento = titulo)
+                    )
+                }
+
                 adaptador.notifyDataSetChanged()
                 Toast.makeText(this, "Agregado a la agenda con éxito", Toast.LENGTH_SHORT).show()
 
@@ -148,6 +161,13 @@ class AgendaActivity : AppCompatActivity() {
     private fun eliminarItem(item: AgendaItem) {
         listaAgenda.remove(item)
         guardarAgendaEnPrefs()
+
+        // ⬅️ Eliminar también de Room
+        lifecycleScope.launch {
+            val db = AppDatabase.getDatabase(this@AgendaActivity)
+            db.agendaDao().deleteAgendaById(item.id)
+        }
+
         adaptador.notifyDataSetChanged()
         Toast.makeText(this, "Eliminado de la agenda", Toast.LENGTH_SHORT).show()
     }

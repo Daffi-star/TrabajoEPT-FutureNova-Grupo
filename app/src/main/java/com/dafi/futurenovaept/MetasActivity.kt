@@ -10,6 +10,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.dafi.futurenovaept.data.AppDatabase
+import com.dafi.futurenovaept.data.MetaEntity
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -83,6 +87,15 @@ class MetasActivity : AppCompatActivity() {
                     )
                     listaMetas.add(nuevaMeta)
                     guardarMetasEnPrefs()
+
+                    // ⬅️ Guardar también en la base de datos de Room para el perfil
+                    lifecycleScope.launch {
+                        val db = AppDatabase.getDatabase(context)
+                        db.metaDao().insertMeta(
+                            MetaEntity(id = nuevaMeta.id.toLongOrNull() ?: 0L, titulo = titulo)
+                        )
+                    }
+
                     adaptador.notifyDataSetChanged()
                     actualizarProgreso()
                     Toast.makeText(context, "Meta creada con éxito", Toast.LENGTH_SHORT).show()
@@ -141,6 +154,13 @@ class MetasActivity : AppCompatActivity() {
     private fun eliminarMeta(item: MetaItem) {
         listaMetas.remove(item)
         guardarMetasEnPrefs()
+
+        // ⬅️ Borrar también de la base de datos de Room
+        lifecycleScope.launch {
+            val db = AppDatabase.getDatabase(this@MetasActivity)
+            db.metaDao().deleteMetaById(item.id)
+        }
+
         adaptador.notifyDataSetChanged()
         actualizarProgreso()
         Toast.makeText(this, "Meta eliminada", Toast.LENGTH_SHORT).show()

@@ -12,6 +12,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.dafi.futurenovaept.data.AppDatabase
+import com.dafi.futurenovaept.data.SuplementoEntity
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Calendar
@@ -97,6 +101,18 @@ class SuplementosActivity : AppCompatActivity() {
             // 2. Guardar en lista y preferencias
             listaSuplementos.add(nuevaAlarma)
             guardarAlarmasEnPrefs()
+
+            // 3. ⬅️ Guardar también en la base de datos de Room para el perfil
+            lifecycleScope.launch {
+                val db = AppDatabase.getDatabase(this@SuplementosActivity)
+                db.suplementoDao().insertSuplemento(
+                    SuplementoEntity(
+                        id = idUnico.toLongOrNull() ?: 0L,
+                        nombre = nombreSuplemento
+                    )
+                )
+            }
+
             adaptador.notifyDataSetChanged()
             Toast.makeText(this, "Alarma programada con éxito", Toast.LENGTH_SHORT).show()
 
@@ -176,6 +192,13 @@ class SuplementosActivity : AppCompatActivity() {
     private fun eliminarAlarma(alarma: SuplementoAlarma) {
         listaSuplementos.remove(alarma)
         guardarAlarmasEnPrefs()
+
+        // ⬅️ Eliminar también de la base de datos de Room
+        lifecycleScope.launch {
+            val db = AppDatabase.getDatabase(this@SuplementosActivity)
+            db.suplementoDao().deleteSuplementoById(alarma.id.toLongOrNull() ?: 0L)
+        }
+
         adaptador.notifyDataSetChanged()
         Toast.makeText(this, "Alarma eliminada", Toast.LENGTH_SHORT).show()
     }
