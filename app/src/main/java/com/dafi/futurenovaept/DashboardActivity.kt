@@ -28,10 +28,27 @@ class DashboardActivity : AppCompatActivity() {
         tvSaludo = findViewById(R.id.tvSaludo)
 
         // 1. Configuración del botón Diagnóstico
+        // 1. Configuración dinámica del botón Diagnóstico
         val btnDiagnostico = findViewById<MaterialButton>(R.id.btnDiagnostico)
-        btnDiagnostico.setOnClickListener {
-            val intent = Intent(this, ResultadosActivity::class.java)
-            startActivity(intent)
+
+        // Consultamos si el usuario omitió o nunca hizo la encuesta previamente
+        val prefsPerfil = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
+        val encuestaOmitidaOHecha = prefsPerfil.getBoolean("encuesta_omitida_o_hecha", false)
+
+        if (encuestaOmitidaOHecha) {
+            // Si la omitió, cambiamos el texto del botón para invitarlo a hacerla
+            btnDiagnostico.text = "Realizar encuesta de diagnóstico"
+            btnDiagnostico.setOnClickListener {
+                val intent = Intent(this, DiagnosisActivity::class.java)
+                startActivity(intent)
+            }
+        } else {
+            // Si ya la completó de forma normal, muestra sus resultados
+            btnDiagnostico.text = "Resultados del diagnóstico"
+            btnDiagnostico.setOnClickListener {
+                val intent = Intent(this, ResultadosActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         val bottomNavigationView = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation)
@@ -144,4 +161,6 @@ class DashboardActivity : AppCompatActivity() {
         val tvDashboardAgua = findViewById<TextView>(R.id.tvDashboardAgua)
         tvDashboardAgua.text = "$totalAguaActual / ${metaDiaria}ml"
     }
+
+
 }

@@ -1,89 +1,127 @@
 package com.dafi.futurenovaept
 
+import android.app.AlertDialog
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import org.json.JSONArray
+import java.io.File
+import java.io.FileOutputStream
 
 class PerfilActivity : AppCompatActivity() {
 
-    private lateinit var tvNombre: TextView
-    private lateinit var tvStatMetas: TextView
-    private lateinit var tvStatAgenda: TextView
-    private lateinit var tvStatSuplementos: TextView
+    private lateinit var ivProfileImage: ImageView
+    private lateinit var tvNombrePerfil: TextView
     private lateinit var btnEditarNombre: Button
     private lateinit var btnAcercaDe: Button
+
+    // Contrato moderno para escoger la foto de la galería
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { selectedUri ->
+            try {
+                val savedPath = saveImageToInternalStorage(selectedUri)
+
+                // Guardar ruta en SharedPreferences
+                val prefs = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
+                prefs.edit().putString("ruta_foto_perfil", savedPath).apply()
+
+                // Mostrar la imagen y quitar padding para que ocupe todo el espacio
+                ivProfileImage.setImageURI(Uri.parse(savedPath))
+                ivProfileImage.setPadding(0, 0, 0, 0)
+
+                Toast.makeText(this, "¡Foto de perfil actualizada!", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        setContentView(R.layout.activity_perfil)
+        setContentView(R.layout.activity_perfil) // Asegúrate de que coincida con el nombre de tu archivo xml
 
-        tvNombre = findViewById(R.id.tvNombrePerfil)
-        tvStatMetas = findViewById(R.id.tvStatMetas)
-        tvStatAgenda = findViewById(R.id.tvStatAgenda)
-        tvStatSuplementos = findViewById(R.id.tvStatSuplementos)
+        // Vincular vistas
+        ivProfileImage = findViewById(R.id.ivProfileImage)
+        tvNombrePerfil = findViewById(R.id.tvNombrePerfil)
         btnEditarNombre = findViewById(R.id.btnEditarNombre)
         btnAcercaDe = findViewById(R.id.btnAcercaDe)
 
+        // Cargar los datos guardados previamente (nombre y foto)
         cargarDatosPerfil()
 
+        // Evento para abrir la galería al tocar la foto
+        ivProfileImage.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
+
+        // Evento para editar el nombre con una ventana emergente
         btnEditarNombre.setOnClickListener {
             mostrarDialogoEditarNombre()
         }
 
+        // Evento del botón Acerca de
         btnAcercaDe.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("FutureNova EPT")
-                .setMessage("Aplicación de organización, salud y cuidado preventivo contra la anemia.\n\nVersión 1.0")
-                .setPositiveButton("Cerrar", null)
+                .setTitle("Acerca de NutriHierro")
+                .setMessage("NutriHierro es una aplicación diseñada para el cuidado y control de anemia, ayudando a los estudiantes a llevar un registro saludable.")
+                .setPositiveButton("Entendido", null)
                 .show()
         }
     }
 
     private fun cargarDatosPerfil() {
-        val prefsPerfil = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
-        val nombreGuardado = prefsPerfil.getString("nombre_usuario", "Paciente / Estudiante")
-        tvNombre.text = nombreGuardado
+        val prefs = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
 
-        val prefsSuplementos = getSharedPreferences("MisSuplementosPrefs", Context.MODE_PRIVATE)
-        val jsonSuplementos = prefsSuplementos.getString("lista_alarmas", null)
-        val totalSuplementos = if (jsonSuplementos != null) JSONArray(jsonSuplementos).length() else 0
-        tvStatSuplementos.text = totalSuplementos.toString()
+        // Cargar Nombre
+        val nombreGuardado = prefs.getString("nombre_usuario", "Estudiante")
+        tvNombrePerfil.text = nombreGuardado
 
-        val prefsMetas = getSharedPreferences("MisMetasPrefs", Context.MODE_PRIVATE)
-        val jsonMetas = prefsMetas.getString("lista_metas", null)
-        tvStatMetas.text = if (jsonMetas != null) JSONArray(jsonMetas).length().toString() else "0"
-
-        val prefsAgenda = getSharedPreferences("MiAgendaPrefs", Context.MODE_PRIVATE)
-        val jsonAgenda = prefsAgenda.getString("lista_agenda", null)
-        tvStatAgenda.text = if (jsonAgenda != null) JSONArray(jsonAgenda).length().toString() else "0"
+        // Cargar Foto
+        val savedPath = prefs.getString("ruta_foto_perfil", null)
+        if (savedPath != null) {
+            val imgFile = File(savedPath)
+            if (imgFile.exists()) {
+                ivProfileImage.setImageURI(Uri.fromFile(imgFile))
+                ivProfileImage.setPadding(0, 0, 0, 0)
+            }
+        }
     }
 
     private fun mostrarDialogoEditarNombre() {
-        val input = EditText(this).apply {
-            hint = "Escribe tu nombre"
-            setPadding(40, 30, 40, 30)
-        }
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Editar Nombre de Usuario")
 
-        AlertDialog.Builder(this)
-            .setTitle("Cambiar Nombre")
-            .setView(input)
-            .setPositiveButton("Guardar") { _, _ ->
-                val nuevoNombre = input.text.toString().trim()
-                if (nuevoNombre.isNotEmpty()) {
-                    val prefs = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
-                    prefs.edit().putString("nombre_usuario", nuevoNombre).apply()
-                    tvNombre.text = nuevoNombre
-                    Toast.makeText(this, "Nombre actualizado", Toast.LENGTH_SHORT).show()
-                }
+        val input = EditText(this)
+        input.hint = "Escribe tu nombre"
+        builder.setView(input)
+
+        builder.setPositiveButton("Guardar") { _, _ ->
+            val nuevoNombre = input.text.toString().trim()
+            if (nuevoNombre.isNotEmpty()) {
+                tvNombrePerfil.text = nuevoNombre
+                val prefs = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
+                prefs.edit().putString("nombre_usuario", nuevoNombre).apply()
+                Toast.makeText(this, "¡Nombre actualizado con éxito!", Toast.LENGTH_SHORT).show()
             }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        }
+        builder.setNegativeButton("Cancelar", null)
+        builder.show()
+    }
+
+    private fun saveImageToInternalStorage(uri: Uri): String {
+        val inputStream = contentResolver.openInputStream(uri)
+        val file = File(filesDir, "profile_picture.jpg")
+        val outputStream = FileOutputStream(file)
+        inputStream?.copyTo(outputStream)
+        inputStream?.close()
+        outputStream.close()
+        return file.absolutePath
     }
 }

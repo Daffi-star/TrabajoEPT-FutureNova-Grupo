@@ -40,12 +40,12 @@
 
                 <!-- Avatar o Icono -->
                 <ImageView
+                    android:id="@+id/ivProfileImage"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:src="@android:drawable/ic_menu_myplaces"
-                    app:tint="#2E5A44"
                     android:background="@drawable/bg_categoria"
-                    android:padding="16dp"
+                    android:scaleType="centerCrop"
                     android:layout_marginBottom="12dp"/>
 
                 <TextView

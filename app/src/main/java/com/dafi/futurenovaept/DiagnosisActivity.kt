@@ -10,6 +10,7 @@ import androidx.room.Room
 import com.dafi.futurenovaept.data.AppDatabase
 import com.dafi.futurenovaept.data.DiagnosisRecord
 import kotlinx.coroutines.launch
+import android.content.Context
 
 class DiagnosisActivity : AppCompatActivity() {
 
@@ -23,6 +24,11 @@ class DiagnosisActivity : AppCompatActivity() {
     private lateinit var tvOpt3: TextView
     private lateinit var tvOpt4: TextView
 
+    private lateinit var ivEmoji1: ImageView
+    private lateinit var ivEmoji2: ImageView
+    private lateinit var ivEmoji3: ImageView
+    private lateinit var ivEmoji4: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diagnosis)
@@ -35,8 +41,13 @@ class DiagnosisActivity : AppCompatActivity() {
         tvOpt3 = findViewById(R.id.tvOption3)
         tvOpt4 = findViewById(R.id.tvOption4)
 
-        val btnSkip = findViewById<Button>(R.id.btnDiagnosisSkip)
+        ivEmoji1 = findViewById(R.id.ivEmoji1)
+        ivEmoji2 = findViewById(R.id.ivEmoji2)
+        ivEmoji3 = findViewById(R.id.ivEmoji3)
+        ivEmoji4 = findViewById(R.id.ivEmoji4)
+
         val btnNext = findViewById<Button>(R.id.btnDiagnosisNext)
+
 
         val options = listOf(
             findViewById<LinearLayout>(R.id.option1),
@@ -52,8 +63,24 @@ class DiagnosisActivity : AppCompatActivity() {
             findViewById(R.id.check4)
         )
 
+        val btnSkip = findViewById<Button>(R.id.btnDiagnosisSkip)
+
+        // Comprobar si ya se había omitido o completado antes para cambiarle el texto al botón
+        val prefs = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
+        val encuestaOmitidaOHecha = prefs.getBoolean("encuesta_omitida_o_hecha", false)
+        if (encuestaOmitidaOHecha) {
+            btnSkip.text = "Volver a hacer la encuesta"
+        }
+
+        // Lógica del botón Omitir / Volver a hacer
         btnSkip.setOnClickListener {
-            Toast.makeText(this, "Función pronto disponible", Toast.LENGTH_SHORT).show()
+            // Guardamos que ya pasó por alto o completó la encuesta
+            prefs.edit().putBoolean("encuesta_omitida_o_hecha", true).apply()
+
+            // Salta directamente al Dashboard (o LoadingActivity si prefieres)
+            val intent = Intent(this, DashboardActivity::class.java) // Cambia DashboardActivity si tu pantalla principal tiene otro nombre
+            startActivity(intent)
+            finish()
         }
 
         // Configurar clics de selección
@@ -124,7 +151,11 @@ class DiagnosisActivity : AppCompatActivity() {
 
             db.diagnosisDao().insert(nuevoRegistro)
 
-            // CORRECCIÓN AQUÍ: Ahora apunta a LoadingActivity
+            // ⬇️ AGREGA ESTAS DOS LÍNEAS AQUÍ ⬇️
+            val prefs = getSharedPreferences("MiPerfilPrefs", Context.MODE_PRIVATE)
+            prefs.edit().putBoolean("encuesta_omitida_o_hecha", false).apply()
+
+            // Redirige a LoadingActivity
             val intent = Intent(this@DiagnosisActivity, LoadingActivity::class.java)
             startActivity(intent)
             finish()
@@ -144,6 +175,11 @@ class DiagnosisActivity : AppCompatActivity() {
                 tvOpt2.text = "A veces"
                 tvOpt3.text = "Rara vez"
                 tvOpt4.text = "Nunca"
+
+                ivEmoji1.setImageResource(R.drawable.emoji_llorando_2p)
+                ivEmoji2.setImageResource(R.drawable.emoji_llorando_sonriendo_2p)
+                ivEmoji3.setImageResource(R.drawable.emoji_cara_frustrada_2p)
+                ivEmoji4.setImageResource(R.drawable.emoji_feliz_2p)
             }
             3 -> {
                 tvQuestion.text = "¿Notas fragilidad en tus uñas?"
@@ -151,6 +187,11 @@ class DiagnosisActivity : AppCompatActivity() {
                 tvOpt2.text = "Solo a veces"
                 tvOpt3.text = "Casi nunca"
                 tvOpt4.text = "Nunca"
+
+                ivEmoji1.setImageResource(R.drawable.emoji_explotando_3p)
+                ivEmoji2.setImageResource(R.drawable.emoji_derritiendose_3p)
+                ivEmoji3.setImageResource(R.drawable.emoji_ojitos_de_gato_3p)
+                ivEmoji4.setImageResource(R.drawable.emoji_mewing_3p)
             }
             4 -> {
                 tvQuestion.text = "¿Te sientes mareado(a) al levantarte rápido?"
@@ -158,6 +199,11 @@ class DiagnosisActivity : AppCompatActivity() {
                 tvOpt2.text = "Ocasionalmente"
                 tvOpt3.text = "Casi nunca"
                 tvOpt4.text = "Nunca"
+
+                ivEmoji1.setImageResource(R.drawable.emoji_cara_cagando_4p)
+                ivEmoji2.setImageResource(R.drawable.emoji_triste_4p)
+                ivEmoji3.setImageResource(R.drawable.emoji_ayuda_4p)
+                ivEmoji4.setImageResource(R.drawable.emoji_felicidad_extrema_4p)
             }
             5 -> {
                 tvQuestion.text = "¿Sientes las manos o los pies fríos todo el tiempo?"
@@ -165,6 +211,11 @@ class DiagnosisActivity : AppCompatActivity() {
                 tvOpt2.text = "Ocasionalmente"
                 tvOpt3.text = "Casi nunca"
                 tvOpt4.text = "Nunca"
+
+                ivEmoji1.setImageResource(R.drawable.emoji_frio_5p)
+                ivEmoji2.setImageResource(R.drawable.emoji_estornudo_5p)
+                ivEmoji3.setImageResource(R.drawable.emoji_hielo_5p)
+                ivEmoji4.setImageResource(R.drawable.emoji_fuego_5p)
         }
         }
     }

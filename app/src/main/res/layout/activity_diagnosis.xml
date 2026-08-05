@@ -115,7 +115,14 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="16dp">
-                    <ImageView android:layout_width="44dp" android:layout_height="44dp" android:layout_marginEnd="16dp" android:contentDescription="emoji" android:scaleType="centerCrop" android:src="@drawable/emoji_super_cansado" />
+                    <ImageView
+                        android:id="@+id/ivEmoji1"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="emoji"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/emoji_super_cansado" />
                     <TextView android:id="@+id/tvOption1" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Me siento cansado(a) con frecuencia" android:textColor="#212121" android:textSize="17sp" />
                     <ImageView android:id="@+id/check1" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="check" android:src="@drawable/ic_check_mark" android:visibility="gone" />
                 </LinearLayout>
@@ -131,11 +138,17 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="16dp">
-                    <ImageView android:layout_width="44dp" android:layout_height="44dp" android:layout_marginEnd="16dp" android:contentDescription="emoji" android:scaleType="centerCrop" android:src="@drawable/emoji_fatiga" />
+                    <ImageView
+                        android:id="@+id/ivEmoji2"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="emoji"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/emoji_fatiga" />
                     <TextView android:id="@+id/tvOption2" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="A veces me siento fatigado(a)" android:textColor="#212121" android:textSize="17sp" />
                     <ImageView android:id="@+id/check2" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="check" android:src="@drawable/ic_check_mark" android:visibility="gone" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/option3"
                     android:layout_width="match_parent"
@@ -147,11 +160,17 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="16dp">
-                    <ImageView android:layout_width="44dp" android:layout_height="44dp" android:layout_marginEnd="16dp" android:contentDescription="emoji" android:scaleType="centerCrop" android:src="@drawable/emoji_ejercicio" />
+                    <ImageView
+                        android:id="@+id/ivEmoji3"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="emoji"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/emoji_ejercicio" />
                     <TextView android:id="@+id/tvOption3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Solo cuando hago ejercicio" android:textColor="#212121" android:textSize="17sp" />
                     <ImageView android:id="@+id/check3" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="check" android:src="@drawable/ic_check_mark" android:visibility="gone" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/option4"
                     android:layout_width="match_parent"
@@ -162,7 +181,14 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="16dp">
-                    <ImageView android:layout_width="44dp" android:layout_height="44dp" android:layout_marginEnd="16dp" android:contentDescription="emoji" android:scaleType="centerCrop" android:src="@drawable/emoji_con_energia" />
+                    <ImageView
+                        android:id="@+id/ivEmoji4"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="emoji"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/emoji_con_energia" />
                     <TextView android:id="@+id/tvOption4" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Me siento con energía casi siempre" android:textColor="#212121" android:textSize="17sp" />
                     <ImageView android:id="@+id/check4" android:layout_width="26dp" android:layout_height="26dp" android:contentDescription="check" android:src="@drawable/ic_check_mark" android:visibility="gone" />
                 </LinearLayout>
